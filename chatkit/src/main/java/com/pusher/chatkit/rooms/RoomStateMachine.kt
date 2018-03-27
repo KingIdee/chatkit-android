@@ -162,8 +162,13 @@ private class LoadMessagesTask(
 
     private fun Message.asDetails(): Promise<Result<Item.Details, Error>> =
         machine.chatManager.userService().userFor(this)
-            .mapResult { it.name ?: "???" }
-            .mapResult { userName -> Item.Details(userName, text ?: "") }
+            .mapResult { user ->
+                Item.Details(
+                    userName = user.name ?: "???",
+                    message = text ?: "",
+                    avatarUrl = user.avatarURL ?: ""
+                )
+            }
 
     private operator fun RoomState.plus(item: Item): RoomState = when (this) {
         is RoomState.RoomLoaded -> RoomState.Ready(machine::handleAction, room, listOf(item))
@@ -191,9 +196,8 @@ private class AddMessageTask(machine: RoomStateMachine, val room: Room, val mess
 
     override fun invoke() {
         pendingPromise = machine.chatManager.currentUser
-            .mapResult { currentUser -> currentUser.name ?: "???" }
-            .mapResult { userName -> Item.Pending(Item.Details(userName, messageText)) as Item }
-            .recover { error -> Item.Failed(Item.Details(messageText, "Could not find name"), error) }
+            .mapResult { Item.Pending(Item.Details(it.name ?: "???", messageText, it.avatarURL ?: "")) as Item }
+            .recover { error -> Item.Failed(Item.Details(messageText, "Could not find name", ""), error) }
             .flatMap { item ->
                 machine.update(machine.whenLoaded { copy(items = listOf(item) + items) })
                 machine.chatManager.messageService(room).sendMessage(messageText)
@@ -279,7 +283,7 @@ sealed class RoomState(val type: Type) {
             LOADED, PENDING, FAILED
         }
 
-        data class Details(val userName: CharSequence, val message: CharSequence)
+        data class Details(val userName: CharSequence, val message: CharSequence, val avatarUrl: CharSequence)
 
     }
 

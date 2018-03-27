@@ -3,5 +3,6 @@
 
     <item name="chat_room" type="id" />
     <item name="menu_item_type" type="id" />
+    <item name="image_url" type="id" />
 
 </resources>
