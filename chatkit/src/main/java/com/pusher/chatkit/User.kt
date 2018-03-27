@@ -6,7 +6,7 @@ class User(
     var updatedAt: String,
 
     var name: String?,
-    var avatarURL: String?,
+    var avatarUrl: String?,
     var customData: CustomData?,
     var online: Boolean = false
 ) {

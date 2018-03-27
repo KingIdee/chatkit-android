@@ -180,7 +180,7 @@ class UserSubscription(
                         tokenParams = tokenParams,
                         tokenProvider = tokenProvider,
                         userStore = userStore,
-                        avatarURL = initialState.currentUser.avatarURL,
+                        avatarURL = initialState.currentUser.avatarUrl,
                         customData = initialState.currentUser.customData,
                         name = initialState.currentUser.name,
                         updatedAt = initialState.currentUser.updatedAt,

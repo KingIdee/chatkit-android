@@ -15,6 +15,7 @@ import com.pusher.chatkit.rooms.RoomState
 import com.pusher.chatkit.rooms.RoomState.*
 import com.pusher.chatkitdemo.R
 import com.pusher.chatkitdemo.app
+import com.pusher.chatkitdemo.images.imageUrl
 import com.pusher.chatkitdemo.nameOf
 import com.pusher.chatkitdemo.recyclerview.dataAdapterFor
 import com.pusher.chatkitdemo.showOnly
@@ -36,6 +37,7 @@ class RoomFragment : Fragment() {
 
     private val adapter = dataAdapterFor<Item> {
         on<Item.Loaded>(R.layout.item_message) { (details) ->
+            avatarView.imageUrl = details.avatarUrl
             userNameView.text = details.userName
             messageView.text = details.message
         }

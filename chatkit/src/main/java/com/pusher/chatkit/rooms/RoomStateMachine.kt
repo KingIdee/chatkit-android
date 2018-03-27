@@ -166,7 +166,7 @@ private class LoadMessagesTask(
                 Item.Details(
                     userName = user.name ?: "???",
                     message = text ?: "",
-                    avatarUrl = user.avatarURL ?: ""
+                    avatarUrl = user.avatarUrl ?: ""
                 )
             }
 
